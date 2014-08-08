@@ -6,6 +6,7 @@ namespace LinqExamples
     public class FakeGenerator
     {
         private static int count = 0;
+
         public static List<Competence> GenerateCompetences(int count)
         {
             var competences = new List<Competence>();
@@ -19,6 +20,33 @@ namespace LinqExamples
             Enumerable.Range(0, count).ToList().ForEach(x => groups.Add(GenerateGroup(x)));
             return groups;
         }
+
+        public static List<Person> GeneratePersons(int count)
+        {
+            var competenceId = 1;
+            var persons = new List<Person>();
+            Enumerable.Range(0, count).ToList().ForEach(x =>
+                {
+                    if (x % 2 == 0)
+                        competenceId = 2;
+                    if (x % 3 == 0)
+                        competenceId = 3;
+                    persons.Add(GeneratePerson(x, competenceId));
+                });
+            return persons;
+        }
+
+        private static Person GeneratePerson(int id, int competenceId)
+        {
+            var competence = GenerateCompetence(competenceId);
+            return new Person
+            {
+                Id = id,
+                Name = "Name " + id,
+                Competence = competence
+            };
+        }
+
 
         private static Group GenerateGroup(int id)
         {

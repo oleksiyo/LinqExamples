@@ -44,6 +44,7 @@
     <Compile Include="Competence.cs" />
     <Compile Include="FakeGenerator.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
