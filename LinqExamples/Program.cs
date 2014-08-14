@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LinqExamples
@@ -22,6 +23,29 @@ namespace LinqExamples
                     Id = g.First().Competence.Id,
                     Count = g.Count()
                 });
+
+            // result: id Name Count
+            //          1  "a"   2
+            //          2  "c"   1
+            //          3  "a"   3
+            var comGroups = new List<CompetenceGroup>
+                {
+                    new CompetenceGroup {Id = 2, Name = "c", Count = 1},
+                    new CompetenceGroup {Id = 1, Name = "a", Count = 1},
+                    new CompetenceGroup {Id = 1, Name = "b", Count = 2},
+                    new CompetenceGroup {Id = 3, Name = "a", Count = 1},
+                    new CompetenceGroup {Id = 3, Name = "b", Count = 3}
+                };
+
+            var groupBy = comGroups.GroupBy(s => s.Id).ToList();
+            var uniqueItems = groupBy.Where(grouping => grouping.Count() == 1).Select(grouping => grouping.First());
+            var duplicateItems = groupBy.Where(grouping => grouping.Count() > 1)
+                       .SelectMany(grouping => grouping.ToList())
+                       .Where(@group => @group.Name == "b")
+                       .Select(c => { c.Name = "a"; return c; });
+
+            // Update all objects in a collection using Linq
+            duplicateItems.Select(c => { c.Name = "value"; return c; }).ToList();
 
 
             Console.ReadKey();
